@@ -24,8 +24,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: Ejecutar tests
-      run: |
-        pytest tests/ -v
+      run: PYTHONPATH=. pytest tests/ -v
 
     - name: Ejecutar con cobertura
       run: |
