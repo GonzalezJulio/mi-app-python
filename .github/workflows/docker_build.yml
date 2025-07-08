@@ -2,7 +2,7 @@ name: Build Docker
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, Dia17]
   pull_request:
     branches: [main]
 
