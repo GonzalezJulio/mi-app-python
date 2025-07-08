@@ -53,8 +53,24 @@ jobs:
       run: |
         IMAGE_TAG=$(echo "${{ steps.meta.outputs.tags }}" | head -n1)
         docker run -d --name test-container -p 5000:5000 $IMAGE_TAG
-        sleep 50
-        curl -f http://localhost:5000/health
+
+        echo "Esperando que el contenedor esté listo..."
+        for i in {1..10}; do
+          if curl -s http://localhost:5000/health; then
+            echo "✅ App disponible"
+            break
+          else
+            echo "⏳ Esperando... ($i/10)"
+            sleep 5
+          fi
+          if [ "$i" -eq 10 ]; then
+            echo "❌ El contenedor no respondió en el tiempo esperado"
+            docker logs test-container
+            docker stop test-container && docker rm test-container
+            exit 1
+          fi
+        done
+
         curl -f http://localhost:5000/
         docker stop test-container && docker rm test-container
 
