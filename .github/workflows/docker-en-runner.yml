@@ -2,7 +2,7 @@ name: Docker en Self-hosted
 
 on:
   push:
-    branches: [main]
+    branches: [dia18]
 
 jobs:
   docker-build:
